@@ -90,6 +90,13 @@ trait Server {
             }
           }
         } ~
+        // query string and path extraction
+        path("entity" / JavaUUID) { uuid =>
+          parameters("type", "opt".?) { (typeParm, optParm) =>
+            println(s"entity: $uuid, type = $typeParm, opt = $optParm")
+            complete(HttpResponse(StatusCodes.OK))
+          }
+        } ~
         // composition, streaming
         pathPrefix("stream") { Streamer.routes }
     }
